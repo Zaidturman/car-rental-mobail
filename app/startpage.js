@@ -13,7 +13,7 @@ const StartPage = () => {
     useEffect(() => {
         // Use setTimeout to navigate to another screen after 3 seconds
         const timer = setTimeout(() => {
-            navigation.navigate('Login'); // Replace 'NextScreen' with the name of your target screen
+            navigation.navigate('Home'); // Replace 'NextScreen' with the name of your target screen
         }, 3000); // 3000 milliseconds (3 seconds)
 
         // Clear the timer if the component unmounts (optional)
@@ -25,7 +25,9 @@ const StartPage = () => {
             <ImageBackground
                 source={require('../assets/startback.png')}
                 style={styles.header}>
+
                
+            <Text style={styles.text}>By zcode</Text>
             </ImageBackground>
             
         </View>
@@ -59,6 +61,12 @@ const styles = StyleSheet.create({
         color: '#3563E9',
         fontWeight: 'bold',
     },
+    text:{
+        marginTop:500,
+
+        color: '#ECEBEB',
+
+    }
 });
 
 export default StartPage;

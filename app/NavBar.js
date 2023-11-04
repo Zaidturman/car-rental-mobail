@@ -1,25 +1,30 @@
 import React from 'react';
 import { View, Image,Text, TouchableOpacity, StyleSheet } from 'react-native';
 import NavBarWithMenu from './NavBarWithMenu'; // Import the NavBarWithMenu component
+import SearchBar from './SearchBar';
 
 const Navbar = () => {
 
 
     return (
-        <View style={styles.container}>
-            
-            <Text>Home</Text>
-            <Text>about </Text>
-            <Text>cars</Text>
+        <>
+            <SearchBar />
 
-        </View>
+        </>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-    },
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'start',
+        backgroundColor: 'white', // Set your desired background color
+        padding: 10,
+        
+       
+        
+        },
 });
 
 
