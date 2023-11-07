@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import {firebase} from '../Config';
 import Navbar from './NavBar';
 import NavBarWithMenu from './NavBarWithMenu';
 import ProfileScreen from './ProfileScreen';
@@ -11,13 +11,33 @@ const Header = ({ title }) => {
     const navigation = useNavigation();
 
     const [isComponentVisible, setComponentVisible] = useState(false);
+    const [status, setStatus] = useState('');
+
 
     const toggleComponent = () => {
         setComponentVisible(!isComponentVisible);
     };
 
+   
+
+    useEffect(() => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                setStatus('ProfileView')
+
+            } else {
+                setStatus('Login')
+
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
+
     const toggleProfile = () => {
-        navigation.navigate('ProfileView'); // Replace 'NextScreen' with the name of your target screen
+
+        navigation.navigate(status); // Replace 'NextScreen' with the name of your target screen
+
     };
 
 
@@ -78,6 +98,7 @@ const styles = StyleSheet.create({
         alignItems: 'start',
         backgroundColor: 'white', // Set your desired background color
         padding: 10,
+        marginTop:40,
     },
     logoContainer: {
         flex: 1,

@@ -17,7 +17,10 @@ import Cars from './Cars';
 function MyNavigator() {
     const Stack = createStackNavigator();
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{ headerShown: false }}
+>
+            <Stack.Screen name="Start" component={StartPage} />
             <Stack.Screen name="Start" component={StartPage} />
 
             <Stack.Screen name="Home" component={Home} />

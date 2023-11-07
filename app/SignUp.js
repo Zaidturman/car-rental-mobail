@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import {firebase} from '../Config';
 
 import {
     StyleSheet,
@@ -15,7 +16,47 @@ import Home from './Home';
 const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setconfirmPassword] = useState('');
+    const [username, setUsername] = useState('');
+
     const navigation = useNavigation();
+
+    const onRegisterPress = () => {
+        if (password !== confirmPassword) {
+            alert("Passwords don't match.")
+            return
+        }
+        //alert("register")
+
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((response) => {
+                const uid = response.user.uid
+                const data = {
+                    id: uid,
+                    email,
+                    username,
+                    password,
+                    confirmPassword,
+                };
+                const usersRef = firebase.firestore().collection('users')
+                usersRef
+                    .doc(uid)
+                    .set(data)
+                    .then(() => {
+                        navigation.navigate('Home')
+                        alert("Done")
+                    })
+                    .catch((error) => {
+                        alert(error)
+                    });
+
+            })
+            .catch((error) => {
+                alert("Eroor"+error)
+            });
+    }
 
     const loginUser = () => {
         if (email === 'user@domain.com' && password === 'password') {
@@ -34,20 +75,19 @@ const SignUp = () => {
             </ImageBackground>
             <View style={styles.card}>
                 <Text style={styles.text}>Sign up to join</Text>
-                <TextInput style={styles.input} placeholder="Email" onChangeText={(text) => setEmail(text)}
+                <TextInput style={styles.input} placeholder="email" onChangeText={(text) => setEmail(text)}
                 />
-                <TextInput style={styles.input} placeholder="username"  onChangeText={(text) => setPassword(text)}
+                <TextInput style={styles.input} placeholder="username" onChangeText={(text) => setUsername(text)}
                 />
-                <TextInput style={styles.input} placeholder="name"  onChangeText={(text) => setPassword(text)}
-                />
+              
                 <TextInput style={styles.input} placeholder="Password" secureTextEntry={true} onChangeText={(text) => setPassword(text)}
                 />
-                <TextInput style={styles.input} placeholder="confirm password" secureTextEntry={true} onChangeText={(text) => setPassword(text)}
+                <TextInput style={styles.input} placeholder="confirmpassword" secureTextEntry={true} onChangeText={(text) => setconfirmPassword(text)}
                 />
 
               
 
-                <TouchableOpacity style={styles.button} onPress={loginUser}>
+                <TouchableOpacity style={styles.button} onPress={onRegisterPress}>
                     <Text style={styles.buttonText}>Sign Up</Text>
                 </TouchableOpacity>
 

@@ -18,10 +18,7 @@ const MessageItem = ({ message }) => (
 const Chat = (props) => {
     return (
         <>
-        <Text>
-            Name
-        </Text>
-
+       
         <FlatList
             data={messages}
             keyExtractor={(item) => item.id}
@@ -36,6 +33,8 @@ const styles = StyleSheet.create({
         padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
+        marginTop: 40,
+
     },
     messageText: {
         fontSize: 16,

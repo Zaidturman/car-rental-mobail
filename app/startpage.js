@@ -6,14 +6,19 @@ StyleSheet,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Home from './Home';
+import TabBar from './TabBar';
 
 const StartPage = () => {
     const navigation = useNavigation();
 
+    const getstart = () => {
+        navigation.navigate('TabBar'); // Replace 'NextScreen' with the name of your target screen
+
+    };
     useEffect(() => {
         // Use setTimeout to navigate to another screen after 3 seconds
         const timer = setTimeout(() => {
-            navigation.navigate('Home'); // Replace 'NextScreen' with the name of your target screen
+            navigation.navigate('TabBar'); // Replace 'NextScreen' with the name of your target screen
         }, 3000); // 3000 milliseconds (3 seconds)
 
         // Clear the timer if the component unmounts (optional)
@@ -26,7 +31,9 @@ const StartPage = () => {
                 source={require('../assets/startback.png')}
                 style={styles.header}>
 
-               
+                <TouchableOpacity style={styles.button} onPress={getstart}>
+                    <Text style={styles.buttonText}>Get Start</Text>
+                </TouchableOpacity>
             <Text style={styles.text}>By zcode</Text>
             </ImageBackground>
             
@@ -55,14 +62,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
         width: '50%',
         alignItems: 'center',
-        marginTop:400,
+        marginTop:600,
     },
     buttonText: {
         color: '#3563E9',
         fontWeight: 'bold',
     },
     text:{
-        marginTop:500,
+        marginTop:50,
 
         color: '#ECEBEB',
 

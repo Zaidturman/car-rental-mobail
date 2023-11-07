@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Button } from 'react-native-web';
 
 const CarList = () => {
     const data = [
@@ -13,10 +15,10 @@ const CarList = () => {
             passengers: 5,
             rate: 4.5,
             doors: 4,
-            price: '$50/day',
+            price: '$80/day',
         },
         {
-            id: '1',
+            id: '2',
             make: 'Toyota',
             model: 'Camry',
             year: 2022,
@@ -25,10 +27,11 @@ const CarList = () => {
             passengers: 5,
             rate: 4.5,
             doors: 4,
+
             price: '$50/day',
         },
         {
-            id: '1',
+            id: '3',
             make: 'Toyota',
             model: 'Camry',
             year: 2022,
@@ -37,10 +40,17 @@ const CarList = () => {
             passengers: 5,
             rate: 4.5,
             doors: 4,
-            price: '$50/day',
+
+            price: '$60/day',
         },
         // Add more car data here
     ];
+    const navigation = useNavigation();
+
+    const RentCar =()=>{
+        navigation.navigate('RentCar'); // Replace 'NextScreen' with the name of your target screen
+
+    }
 
     const renderItem = ({ item }) => (
         <View style={styles.carItem}>
@@ -57,13 +67,14 @@ const CarList = () => {
             <View style={styles.carBottom}>
                 <Text style={styles.carPrice}>{item.price}</Text>
                 <TouchableOpacity style={styles.rentButton}>
-                    <Text style={styles.rentButtonText}>Rent</Text>
+                    <Text style={styles.rentButtonText} onPress={RentCar}>Rent</Text>
                 </TouchableOpacity>
             </View>
         </View>
     );
 
     return (
+    
         <FlatList
             data={data}
             keyExtractor={(item) => item.id}
@@ -76,6 +87,8 @@ const CarList = () => {
 const styles = StyleSheet.create({
     carList: {
         padding: 16,
+        marginTop: 40,
+
     },
     carItem: {
         backgroundColor: '#fff',

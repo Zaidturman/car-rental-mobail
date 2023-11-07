@@ -11,7 +11,8 @@ const Home = () => {
   
     return (
         <>
-        <Header/>
+        <Header />
+        
             <ButtonSlider/>
             <CarList />
 

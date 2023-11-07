@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-
+import {firebase} from '../Config';
 import {
     StyleSheet,
     Text,
@@ -12,18 +12,36 @@ import {
 } from 'react-native';
 import Home from './Home';
 
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [status, setStatus] = useState(false);
+
     const navigation = useNavigation();
+    const user = {
+        username: email,
+        password: password,
+    };
 
-
+    const loginUser = () => {
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(() => {
+                alert('Login Successful!');
+                navigation.navigate('TabBar');
+            })
+            .catch((error) => {
+                alert('Error', error.message);
+            });
+    };
     const gotocreate = () => {
             navigation.navigate('Create');
     }
 
        
-    const loginUser = () => {
+    const loginUsertest = () => {
         if (email === 'user@domain.com' && password === 'password') {
             navigation.navigate('Home');
             

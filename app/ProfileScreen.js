@@ -5,81 +5,151 @@ import {
     StyleSheet,
     TextInput,
     TouchableOpacity,
-    Alert,
+    KeyboardAvoidingView,
+    ScrollView,
+    Image,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
+import ImagePicker from 'react-native-image-picker';
 
 const ProfileScreen = () => {
-
-    const navigation = useNavigation();
-
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
-    const [fullName, setFullName] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleUpdate = () => {
-       
-        navigation.navigate('ProfileView'); // Replace 'NextScreen' with the name of your target screen
 
-        Alert.alert('User updated successfully!');
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    const openImagePicker = () => {
+        const options = {
+            title: 'Select Image',
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+        };
+
+        ImagePicker.showImagePicker(options, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else {
+                const source = { uri: response.uri };
+                setSelectedImage(source);
+            }
+        });
     };
 
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.header}>Edit Profile</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Full Name"
-                onChangeText={setFullName}
-                value={fullName}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                onChangeText={setEmail}
-                value={email}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Password"
-                onChangeText={setPassword}
-                value={password}
-                secureTextEntry
-            />
-           <TouchableOpacity style={styles.button} onPress={handleUpdate}>
-                <Text style={styles.buttonText}>Update</Text>
-            </TouchableOpacity> 
-        </View>
+        <ScrollView>
+        
+            <KeyboardAvoidingView behavior="padding" style={styles.container}>
+                <View >
+                    <TouchableOpacity onPress={openImagePicker}>
+                        <Image
+                            source={require('../assets/icons8-profile-48.png')}
+                            style={styles.profileImage}
+
+                        />
+
+                </TouchableOpacity>
+                   
+</View>
+
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputLabel}>Username</Text>
+                    <TextInput
+                        style={styles.inputField}
+                        onChangeText={setUsername}
+                        value={username}
+                    />
+                </View>
+
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputLabel}>Email</Text>
+                    <TextInput
+                        style={styles.inputField}
+                        onChangeText={setEmail}
+                        value={email}
+                    />
+                </View>
+
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputLabel}>Phone Number</Text>
+                    <TextInput
+                        style={styles.inputField}
+                        onChangeText={setPhoneNumber}
+                        value={phoneNumber}
+                    />
+                </View>
+
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputLabel}>Change Password</Text>
+                    <TextInput
+                        style={styles.inputField}
+                        onChangeText={setPassword}
+                        value={password}
+                        secureTextEntry
+                    />
+                </View>
+
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputLabel}>Confirm Password</Text>
+                    <TextInput
+                        style={styles.inputField}
+                        onChangeText={setConfirmPassword}
+                        value={confirmPassword}
+                        secureTextEntry
+                    />
+                </View>
+
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}>Update Profile</Text>
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
+    profileImage: {
+        width: 150,
+        height: 150,
+        borderRadius: 75, // To make it a circular image
+        marginBottom: 10,
+        marginTop:40,
+        resizeMode: 'cover',
+        alignSelf: 'center',
+    },
     container: {
         flex: 1,
-        justifyContent: 'center',
-        paddingHorizontal: 20,
-    },
-    header: {
-        fontSize: 24,
-        marginBottom: 40,
-        textAlign: 'center',
-    },
-    input: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
         padding: 10,
-        fontSize: 18,
+    },
+    inputContainer: {
         marginBottom: 20,
+    },
+    inputLabel: {
+        fontSize: 14,
+        color: '#666666',
+        marginBottom: 6,
+    },
+    inputField: {
+        height: 40,
+        borderWidth: 1,
+        borderColor: '#cccccc',
+        paddingLeft: 10,
     },
     button: {
         alignItems: 'center',
-        backgroundColor: '#337ab7',
-        padding: 10,
-        marginTop: 10,
+        backgroundColor: '#1E90FF',
+        padding: 14,
+        borderRadius: 5,
     },
     buttonText: {
-        color: 'white',
+        color: '#ffffff',
         fontSize: 18,
     },
 });
